@@ -1,4 +1,4 @@
-const API_URL = "PASTE_WEB_APP_URL_DI_SINI"; // dari deployment Apps Script
+const API_URL = "https://script.google.com/macros/s/AKfycbyEMpVUuHQUj4saj1YYez3DXwrnxsh8ncHiUqI6rA-AxY5viHcKmemSsHySWukg80Z-0Q/exec"; // dari deployment Apps Script
 
 document.getElementById("formAntrean").addEventListener("submit", async (e) => {
   e.preventDefault();
