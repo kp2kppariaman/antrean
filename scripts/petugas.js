@@ -189,14 +189,6 @@
             return parseTanggalFirebase(datePart); // gunakan fungsi parseTanggalFirebase yang sudah ada
           }
 
-// ⚠️ DUPLICATE FUNCTION: isSameDate
-          function isSameDate(a, b) {
-            if (!a || !b) return false;
-            return a.getFullYear() === b.getFullYear() &&
-                  a.getMonth() === b.getMonth() &&
-                  a.getDate() === b.getDate();
-          }
-
           // pastikan 'today' di-set sebelumnya (ada di kode lama)
           const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
