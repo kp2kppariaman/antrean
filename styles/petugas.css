@@ -1,0 +1,512 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Efek belang-belang halus pada tabel antrean */
+#tabelAntreanBody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+#tabelAntreanBody tr:nth-child(even) {
+    background-color: #edf0f2;
+}
+
+#tabelAntreanBody tr:hover {
+    background-color: #d9e4ff !important;
+}
+
+/* Style untuk menu sidebar yang aktif */
+.menu-item.active {
+    background-color: #4f46e5;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* 🧊 Freeze header tabel antrean */
+#dataAntreanContent table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #d5dbe3;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 📱 Responsive kolom antrean */
+@media (max-width: 1400px) {
+    #dataAntreanContent table th:nth-child(7),
+    #dataAntreanContent table td:nth-child(7) {
+        display: none;
+    }
+}
+
+@media (max-width: 1200px) {
+    #dataAntreanContent table th:nth-child(4),
+    #dataAntreanContent table td:nth-child(4) {
+        display: none;
+    }
+}
+
+@media (max-width: 1000px) {
+    #dataAntreanContent table th:nth-child(5),
+    #dataAntreanContent table td:nth-child(5) {
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+    #dataAntreanContent table th:nth-child(3),
+    #dataAntreanContent table td:nth-child(3) {
+        display: none;
+    }
+}
+
+/* === Samakan gaya tabel MPP dengan tabel Antrean === */
+#tabelMPPBody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+#tabelMPPBody tr:nth-child(even) {
+    background-color: #edf0f2;
+}
+
+#tabelMPPBody tr:hover {
+    background-color: #d9e4ff !important;
+}
+
+#dataMPPContent table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #d5dbe3;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive tabel MPP */
+@media (max-width: 1200px) {
+    #dataMPPContent table th:nth-child(4),
+    #dataMPPContent table td:nth-child(4) {
+        display: none;
+    }
+}
+
+@media (max-width: 1000px) {
+    #dataMPPContent table th:nth-child(5),
+    #dataMPPContent table td:nth-child(5) {
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+    #dataMPPContent table th:nth-child(3),
+    #dataMPPContent table td:nth-child(3) {
+        display: none;
+    }
+}
+
+/* Fit layar */
+#dataAntreanContent table,
+#dataMPPContent table {
+    width: 100%;
+    table-layout: auto;
+    word-wrap: break-word;
+}
+
+#dataAntreanContent th:last-child,
+#dataAntreanContent td:last-child,
+#dataMPPContent th:last-child,
+#dataMPPContent td:last-child {
+    white-space: nowrap;
+    width: 1%;
+    text-align: center;
+}
+
+/* agar tabel tetap rapi di layar kecil */
+@media (max-width: 768px) {
+    #dataAntreanContent table,
+    #dataMPPContent table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+#userInfo {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#userInfo:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* realtime notif */
+#realtimeNotif {
+    position: fixed;
+    bottom: 8px;
+    right: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2563eb;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-weight: 500;
+    font-size: 0.8rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+    white-space: nowrap;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-10px); }
+    10%, 90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Tooltip halus saat hover di sidebar */
+.sidebar-tooltip {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    z-index: 99999;
+    opacity: 0;
+    transform: translateY(-2px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#bannerPengumuman {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* 🔥 Running Text Modern */
+@keyframes scroll-text {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+.animate-scroll-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scroll-text 25s linear infinite;
+}
+
+@media (max-width: 768px) {
+    .animate-scroll-text {
+        animation-duration: 35s;
+    }
+}
+
+/* Modal container */
+.modal-container {
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Sidebar collapsed */
+.sidebar-collapsed {
+    width: 64px !important;
+}
+
+.sidebar-collapsed .menu-item {
+    justify-content: center !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.sidebar-collapsed .menu-item i {
+    margin-right: 0 !important;
+    text-align: center;
+    width: 100%;
+}
+
+.sidebar-collapsed .sidebar-text {
+    display: none !important;
+}
+
+.sidebar-collapsed #sidebarToggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Mode Mobile */
+@media (max-width: 768px) {
+    #sidebar,
+    #sidebarToggle,
+    #userInfo {
+        display: none !important;
+    }
+
+    #mobileNavTabs {
+        display: flex !important;
+    }
+}
+
+/* Navigasi mobile */
+#mobileNavTabs {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    background-color: #1e293b;
+    color: white;
+    z-index: 9999;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 768px) {
+    main {
+        margin-top: 56px !important;
+    }
+}
+
+#mobileNavTabs button {
+    flex: 1;
+    text-align: center;
+    font-size: 1.25rem;
+    padding: 10px 0;
+    transition: background 0.25s ease;
+    border: none;
+    background: transparent;
+}
+
+#mobileNavTabs button.active {
+    background-color: #334155;
+    border-bottom: 3px solid #3b82f6;
+}
+
+#mobileNavTabs i {
+    display: block;
+    font-size: 1.3rem;
+}
+
+/* Card mode mobile */
+@media (max-width: 768px) {
+    .data-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .data-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: .25rem;
+    }
+
+    .data-card-header span {
+        font-weight: 600;
+        font-size: 1rem;
+        color: #1e293b;
+    }
+}
+
+/* Nomor antrean di kanan */
+@media (max-width: 768px) {
+    .data-card-header span:last-child {
+        text-align: right !important;
+        display: block !important;
+        flex: 1 !important;
+    }
+}
+
+.data-card-body {
+    font-size: .875rem;
+    color: #334155;
+    margin-bottom: .75rem;
+}
+
+.data-card-actions {
+    display: flex;
+    justify-content: end;
+    gap: .5rem;
+}
+
+.data-card-actions button {
+    font-size: .75rem;
+    font-weight: 600;
+    border-radius: .5rem;
+    padding: .25rem .75rem;
+}
+
+/* Hapus background putih besar di versi mobile */
+@media (max-width: 768px) {
+    #dataAntreanContent > div.bg-white,
+    #dataMPPContent > div.bg-white {
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+}
+
+/* Modal mobile tweaks */
+@media (max-width: 768px) {
+    .modal-container > div,
+    .modal-container .bg-white {
+        width: 90% !important;
+        max-width: 360px !important;
+        padding: 1rem !important;
+        border-radius: 0.75rem !important;
+    }
+
+    .modal-container input,
+    .modal-container textarea,
+    .modal-container select {
+        font-size: 0.85rem !important;
+        padding: 0.4rem 0.6rem !important;
+    }
+
+    .modal-container h3,
+    .modal-container h2 {
+        font-size: 1rem !important;
+        text-align: center !important;
+    }
+
+    .modal-container label {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.2rem !important;
+    }
+
+    .modal-container button {
+        font-size: 0.75rem !important;
+        padding: 0.4rem 0.8rem !important;
+        border-radius: 0.5rem !important;
+    }
+
+    #suksesModal .bg-white,
+    #infoModal .bg-white,
+    #ketModal .bg-white,
+    #tambahModal .bg-white,
+    #pengumumanModal .bg-white,
+    #editPengumumanModal .bg-white,
+    #tambahTindakModal .bg-white,
+    #detailTindakModal .bg-white,
+    #profilModal .bg-white {
+        width: 90% !important;
+        max-width: 360px !important;
+        padding: 1rem !important;
+    }
+
+    .modal-container .flex.gap-3,
+    .modal-container .flex.gap-2,
+    .modal-container .flex.justify-end {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 0.4rem !important;
+    }
+}
+
+/* === 🔹 Penyesuaian khusus tampilan Pengaturan Antrean versi mobile === */
+@media (max-width: 768px) {
+    .pengaturan-card input[type="time"] {
+        margin-right: 12px !important;
+    }
+
+    .pengaturan-card.libur-khusus {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+}
+
+/* === 🔹 Perbaikan jarak input Jam Buka/Tutup === */
+.pengaturan-card .jamBukaInput,
+.pengaturan-card .jamTutupInput {
+    margin-right: 1.0rem !important;
+    width: calc(100% - 1.0rem) !important;
+}
+
+/* Running Text mobile pengumuman */
+@media (max-width: 768px) {
+    #bannerPengumuman {
+        margin-left: -1rem !important;
+        margin-right: -1rem !important;
+        width: calc(100% + 2rem) !important;
+        border-radius: 0 !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    #bannerPengumuman marquee {
+        font-size: 0.9rem !important;
+        white-space: nowrap !important;
+    }
+}
+
+@keyframes fade-in-down {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Daftar tanggal tutup */
+#daftarTanggalKhusus {
+    display: block !important;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.4s ease-out;
+}
+
+.delete-chat-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.delete-chat-btn:hover {
+    color: #ff6b6b;
+}
+

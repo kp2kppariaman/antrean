@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Petugas</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEIElEQVR4Ac2WA5ArWRiFz/lvd5w8c23btm2rrC2tbdu2bdu2vTu2Z4K+2KQmD52ZPObV7ld16tz4q/+mgf8aogq28w7A5MfBuuVhmLYOQDGuGGtnNQRk1NJLWVBQibUGvTbgj7GJx2bnSSD4a5xHG1kLJnYMc9n9GPhxp5VYQxgD2GKM5XCXYofjxCEyQSM+RcNLOMzCWWdNu87jURPw7oEW+X365u1uVAFb+Im6ZbP9JXAXIsByLAhZ8OC0oFLA6OEJaDPcxpTiUJpEZhmNSMahEhPgAxPETpLMjR8mJu3lQgKFtnEC428PrW9mwS3DAGBBML8CpbVKWoxfXsMvdgXWavkyyMnR6ZXbfgAAwSwmQ/TxAJbBQlLoE/TVKdCgMqJo11fUJ7R+ujXDAjJpDQCbo0YMdQlMFqBxI+J72DkWd8uEBCiLbwMgjhphDZHrFsBgRGiZicbc5gDgoQwYmYYKBrN0/9T7GB/HL5PH2s75ltBYCgaLoxJSKd9NDguU18YC3/8ccw8+k8ETr6UxMCQck7Tn/npf05OYD+Jpo9JjzdmwOAEjIRRUWKDMS2+n3LnXTMIfdT6dI0q096rA36wpj/nAfDdBAaJhMAoCGEFIwBjinQ+T7owrp7Cu0UcJEguOIapDwDIs8E9jBDfdNwENzVFQsNDQKFSFCrAVE/js64T7+Ms0KAQRpuYT4CgT+PqHJPMFjxTUBDcXAWfCAsXRxyAiqBVmrhNAWKB/0CepUCu0RlUsiLahMWEBodR2ApqoRmAF3zdMDgtQFEQ81AptUJWugRhe+WaFCgEKRBb9FjhHPPPFSmjqSY+cAMVbpALGEh/+vgSe/nxlTJiGyv9AbbfAGITIBQpv/bgU7nl/XbQPpjBhKuZ9C4wOoqkJGydAAUmIUuX3F0NvuEVBlAdSgcU+8rqcuuCQH/yYb/Bt3US8+/OS+PKfxdGfT0L5KBEWAFWe4mM0skPtdwK4DfPBHy0pHH7dpp6DDzAKig8yAggAOCfiCiGBXF7/JVUElBeLAP2YX4zl6Kd2B52JZRtCd0R1Dd1vOng9YASVicTGopYnKaHpWHJ857shge6e3p8B9TLpW4qP2eNHMojEx6ImEG5MfODBcy88tzUkEOSHunWQu8RRfUOJYPYoP4HUmKXgF5skFgKdjuSeH5/ovwllFMoM9vyIvo6vWjIT1/tGVHRF0p8OKlUMSlFevDQJGJ2DtQWQLEdmtcjMFpbXVKVARArJqHl0SmbwlJdfuu0vlPFQQaBzn3qR+OFLLzVht7rGvqMcZBkhPQBQfgx+LIN8th2FoVY4kwNJiKhShn+4GKrhLgVAkIwWPov6wcPjU/rVV165uyO8I3Pgl9+aCKoUydRo73XOliQcWX6NpZr5ACSMEtfnicsuufRS+F/yL28O2jvnTzpDAAAAAElFTkSuQmCC" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+
+    <!-- 🔥 CSS BARU YANG TERPISAH -->
+    <link rel="stylesheet" href="./styles/petugas.css">
+
+</head>
+
+<body class="bg-slate-100">
+    <div id="loadingOverlay" class="fixed inset-0 bg-white/80 flex flex-col items-center justify-center z-[100] transition-opacity duration-300">
+        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <p class="mt-4 text-slate-600 font-medium">Memuat data...</p>
+    </div>
+    <!-- 🟢 Loading besar saat buka menu -->
+    <div id="loadingSection" class="fixed inset-0 flex items-center justify-center bg-white z-50 hidden">
+        <div class="text-center">
+            <i class="fa-solid fa-spinner fa-spin text-4xl text-blue-600"></i>
+            <p class="mt-2 text-gray-700 font-medium">Memuat data...</p>
+        </div>
+    </div>
+    <div id="loginSection" class="min-h-screen flex items-center justify-center bg-slate-200">
+        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-lg text-center">
+            <h2 class="text-3xl font-bold text-slate-800">Login Petugas</h2>
+            <div class="space-y-4">
+                <input id="username" class="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Username" />
+                <input type="password" id="password" class="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Password" />
+                <button id="btnLogin" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md hover:shadow-lg">Login</button>
+                <p id="loginError" class="text-red-500 text-sm hidden">Username atau Password salah!</p>
+            </div>
+        </div>
+    </div>
+    <div id="appSection" class="hidden">
+        <div class="flex h-screen bg-slate-100">
+            <!-- === MENU TAB MOBILE === -->
+            <div id="mobileNavTabs" class="hidden">
+                <button data-page="dashboard"><i class="fa-solid fa-house"></i></button>
+                <button data-page="dataAntrean"><i class="fa-solid fa-table-list"></i></button>
+                <button data-page="dataMPP"><i class="fa-solid fa-building-columns"></i></button>
+                <button data-page="tindakLanjut"><i class="fa-solid fa-clipboard-list"></i></button>
+                <button data-page="pengumuman"><i class="fa-solid fa-bullhorn"></i></button>
+                
+                <button data-page="pengaturan"><i class="fa-solid fa-gears"></i></button>
+                <button id="btnProfilMobile" title="Profil Petugas"><i class="fa-solid fa-user"></i></button>
+            </div>
+            <aside id="sidebar" class="w-64 flex flex-col bg-slate-800 text-slate-200 transition-all duration-300">
+                <div class="h-16 flex items-center justify-between px-4 border-b border-slate-700">
+                    <span id="sidebarBrandText" class="text-white text-xl font-bold">ANTREAN ONLINE</span>
+                    <button id="sidebarToggle" class="text-slate-400 hover:text-white hover:bg-slate-700 p-2 rounded-lg transition">
+                        <i id="sidebarToggleIcon" class="fa-solid fa-angles-left"></i>
+                    </button>
+                </div>
+                <nav class="flex-1 px-4 py-4 space-y-2">
+                    <a href="#" id="menuDashboard" class="menu-item flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-house w-5 text-center"></i>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                    <a href="#" id="menuDataAntrean" class="menu-item flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-table-list w-5 text-center"></i>
+                        <span class="sidebar-text">Data Antrean</span>
+                    </a>
+                    <a href="#" id="menuDataMPP" class="menu-item flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-building-columns w-5 text-center"></i>
+                        <span class="sidebar-text">Data MPP</span>
+                    </a>
+                    <!-- 🧾 Menu Tindak Lanjut -->
+                    <a href="#" id="menuTindakLanjut" class="menu-item flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-clipboard-list w-5 text-center"></i>
+                        <span class="sidebar-text">Tindak Lanjut</span>
+                    </a>
+                    <!-- 🔔 Menu Pengumuman Baru -->
+                    <a href="#" id="menuPengumuman" class="menu-item flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-bullhorn w-5 text-center"></i>
+                        <span class="sidebar-text">Pengumuman</span>
+                    </a>
+                    
+                    <a href="#" id="menuPengaturan" class="menu-item flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-gears w-5 text-center"></i>
+                        <span class="sidebar-text">Pengaturan</span>
+                    </a>
+                </nav>
+                <div class="mt-auto">
+                    <div class="p-4 border-t border-slate-700">
+                        <div id="userInfo" class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white flex-shrink-0" id="userInitial"></div>
+                            <div class="overflow-hidden">
+                                <p id="namaPetugas" class="font-semibold text-white sidebar-text truncate"></p>
+                                <button id="btnLogout" class="text-xs text-red-400 hover:underline sidebar-text">Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <main class="flex-1 p-6 overflow-y-auto">
+                <!-- 🔔 Banner Notifikasi Pesan Baru -->
+                <div id="bannerPesanBaru" class="hidden bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-lg p-3 mb-4 flex items-center justify-between animate-fade-in">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-envelope-open-text text-yellow-500"></i>
+                        <span id="teksPesanBaru">Pesan baru dari seseorang...</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="btnLihatPesan" class="bg-yellow-200 hover:bg-yellow-300 text-yellow-900 text-xs font-semibold px-3 py-1 rounded-md">Lihat</button>
+                        <button id="btnTutupPesan" class="bg-yellow-200 hover:bg-yellow-300 text-yellow-900 text-xs font-semibold px-3 py-1 rounded-md">Tutup</button>
+                    </div>
+                </div>
+                <!-- 🔔 Banner Pengumuman (Running Text) -->
+                <div id="bannerPengumuman" class="hidden w-full bg-blue-50 border border-blue-200 rounded-lg shadow-sm mb-4 py-2 px-4 flex items-center overflow-hidden relative">
+                  <i class="fa-solid fa-bullhorn text-blue-500 mr-2 flex-shrink-0"></i>
+                  <div class="overflow-hidden w-full">
+                    <div id="runningTextContainer" class="whitespace-nowrap inline-block animate-scroll-text text-sm text-blue-700 font-medium tracking-wide"></div>
+                  </div>
+                </div>
+
+                <!-- 🟢 DASHBOARD PETUGAS - FIREBASE VERSION -->
+                <section id="dashboardContent" class="p-4">
+                    <div class="w-full mx-auto py-2 px-4">
+                        <h1 class="text-3xl font-bold mb-4 text-slate-800 flex items-center gap-3">
+                          <i class="fa-solid fa-chart-pie text-blue-600"></i> Dashboard Petugas
+                        </h1>
+
+                        <!-- 🔍 PENCARIAN WAJIB PAJAK (VERSI ATAS KANAN) -->
+                        <div class="flex justify-end mb-6">
+                          <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <input id="searchInputDashboard" type="text" placeholder="Cari nama, NIK, keperluan..."
+                              class="border border-slate-300 rounded-md p-2 text-sm w-60 focus:ring-blue-500 focus:border-blue-500" />
+                            <button id="searchButtonDashboard"
+                              class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-md">
+                              <i class="fa-solid fa-search"></i>
+                            </button>
+                            <!-- 🆕 Tombol Reset -->
+                            <button id="resetSearchDashboard"
+                              class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-semibold py-2 px-4 rounded-md">
+                              <i class="fa-solid fa-xmark"></i>
+                            </button>
+                          </div>
+                        </div>
+
+                        <!-- 🔹 HASIL PENCARIAN -->
+                        <div id="searchResultDashboard" class="overflow-x-auto hidden mb-8">
+                          <table class="w-full text-sm border-collapse bg-white rounded-lg shadow">
+                            <thead class="bg-slate-100 text-slate-700">
+                              <tr>
+                                <th class="border px-3 py-2 text-left">Nama</th>
+                                <th class="border px-3 py-2 text-left">NIK</th>
+                                <th class="border px-3 py-2 text-left">Keperluan</th>
+                                <th class="border px-3 py-2 text-left">Tanggal</th>
+                                <th class="border px-3 py-2 text-center">Aksi</th>
+                              </tr>
+                            </thead>
+                            <tbody id="searchResultBody"></tbody>
+                          </table>
+                        </div>
+                        <div id="searchEmptyDashboard" class="text-center text-slate-500 hidden mb-8">
+                          Tidak ada hasil ditemukan.
+                        </div>
+
+
+                        <!-- DASHBOARD STATISTIK -->
+                        <div id="dashboardStats" class="p-6 bg-white rounded-2xl shadow-md"></div>
+
+                    </div>
+                    <div id="hasilPencarian" class="hidden bg-white rounded-lg shadow p-3"></div>
+                </section>
+                <div id="dashboardContent" class="hidden">
+                    <div class="flex justify-between items-start mb-6">
+                        <h1 class="text-3xl font-bold text-slate-800">Dashboard</h1>
+                        <div class="flex items-center gap-2 text-sm text-gray-900">
+                            <i id="refreshSpinnerDashboard" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+                            <span id="lastUpdateTimeDashboard"></span>
+                        </div>
+                    </div>
+                    <div class="mb-6 flex flex-wrap items-end gap-4">
+                        <div>
+                            <label for="filterTanggalDashboard" class="text-sm font-medium text-slate-600">Tampilkan Data Tanggal:</label>
+                            <input type="date" id="filterTanggalDashboard" class="mt-1 block w-full max-w-xs bg-white border border-slate-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+                        <button id="btnUpdateDashboard" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition mt-1">
+                            <i class="fa-solid fa-rotate-right mr-2"></i>Update </button>
+                    </div>
+                    <div id="dashboard-cards" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+                </div>
+                <div id="refreshSpinnerDashboard" class="hidden text-center py-3 text-gray-700">
+                    <i class="fa-solid fa-spinner fa-spin text-blue-600"></i>
+                    <span class="ml-2">Memuat data dashboard...</span>
+                </div>
+                <div id="dataAntreanContent" class="hidden">
+                    <div class="mb-6">
+                        <h1 class="text-3xl font-bold text-slate-800">Data Antrean</h1>
+                        <!-- 🔹 Baris filter dan tombol di bawah judul -->
+                        <div class="flex items-center gap-4">
+                            <input type="date" id="filterTanggalTabel" class="bg-white border border-slate-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <button id="btnTambah" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition"><i class="fa-solid fa-plus mr-2"></i>Tambah</button>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow **overflow-x-auto**">
+                        <table class="min-w-full divide-y divide-slate-200">
+                            <thead class="bg-slate-200">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">No</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Nama</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">NIK/NPWP</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">No HP/WA</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Email</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Keperluan</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Keterangan</th>
+                                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelAntreanBody" class="bg-white divide-y divide-slate-200"></tbody>
+                        </table>
+                        <!-- Versi kartu (muncul hanya di mobile) -->
+                        <div id="antreanCards" class="hidden md:hidden grid grid-cols-1 gap-3 mt-4"></div>
+                    </div>
+                    <!-- 🟢 Spinner loading kecil di bawah tabel -->
+                    <div id="refreshSpinnerTabel" class="hidden text-center py-3 text-gray-700">
+                        <i class="fa-solid fa-spinner fa-spin text-blue-600"></i>
+                        <span class="ml-2">Memuat data...</span>
+                    </div>
+                    <!-- 🔹 Tambahan: ruang kosong di bawah tabel -->
+                    <div class="pb-6"></div>
+                </div>
+                <!-- === DATA MPP === -->
+                <div id="dataMPPContent" class="hidden">
+                    <div class="mb-6">
+                        <h1 class="text-3xl font-bold text-slate-800">Data MPP</h1>
+                        <!-- 🔹 Baris filter dan tombol di bawah judul -->
+                        <div class="flex items-center gap-4">
+                            <input type="date" id="filterTanggalMPP" class="bg-white border border-slate-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <button id="btnTambahMPP" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition"><i class="fa-solid fa-plus mr-2"></i>Tambah</button>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow overflow-x-auto">
+                        <table class="min-w-full divide-y divide-slate-200">
+                            <thead class="bg-slate-200">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">No</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Nama</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">NIK/NPWP</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">No HP/WA</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Email</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Keperluan</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Keterangan</th>
+                                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-900 font-semibold uppercase tracking-wide">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelMPPBody" class="bg-white divide-y divide-slate-200"></tbody>
+                        </table>
+                        <!-- Versi kartu (muncul hanya di mobile) -->
+                        <div id="mppCards" class="hidden md:hidden grid grid-cols-1 gap-3 mt-4"></div>
+                    </div>
+                </div>
+                <!-- === PENGUMUMAN === -->
+                <div id="pengumumanContent" class="hidden">
+                    <h1 class="text-3xl font-bold text-slate-800 mb-6">Papan Pengumuman</h1>
+                    <div class="bg-white p-6 rounded-lg shadow mb-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-semibold text-slate-700">Daftar Pengumuman</h2>
+                            <button id="btnTambahPengumuman" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
+                                <i class="fa-solid fa-plus mr-2"></i>Tambah </button>
+                        </div>
+                        <ul id="daftarPengumuman" class="divide-y divide-slate-200">
+                            <!-- daftar pengumuman muncul di sini -->
+                        </ul>
+                    </div>
+                </div>
+                <!-- === TINDAK LANJUT (lengkap) === -->
+                <div id="tindakLanjutContent" class="hidden">
+                    <h1 class="text-3xl font-bold text-slate-800 mb-4">Tindak Lanjut</h1>
+                    <div class="flex items-center justify-between mb-4 gap-2">
+                        <div class="flex gap-2">
+                            <button id="btnTambahTindak" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                                <i class="fa-solid fa-plus mr-2"></i>Tambah </button>
+                            <button id="btnRiwayatTindak" class="bg-gray-200 hover:bg-gray-300 text-slate-800 font-semibold py-2 px-4 rounded-lg shadow-sm">
+                                <i class="fa-solid fa-history mr-2"></i>Riwayat </button>
+                            <button id="btnRefreshTindak" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                                <i class="fa-solid fa-sync mr-2"></i>Refresh </button>
+                        </div>
+                        <div class="text-sm text-slate-500">
+                            Menampilkan: <span id="labelTampilTindak">Belum Ditindaklanjuti & Menunggu Proses</span>
+                        </div>
+                    </div>
+                    <!-- Loader pindah ke luar container -->
+                    <div id="tindakLoading" class="hidden w-full text-center py-6 text-slate-600 text-sm">
+                        <i class="fa-solid fa-spinner fa-spin mr-2"></i>Memuat data tindak lanjut...
+                    </div>
+                    <div id="tindakCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div id="emptyTindak" class="col-span-full text-center py-8 text-slate-500 italic">Belum ada data tindak lanjut.</div>
+                    </div>
+                </div>
+                <!-- Modal Tambah Data Tindak Lanjut -->
+                <div id="tambahTindakModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden modal-container">
+                    <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <h3 class="text-lg font-semibold mb-3">Tambah Tindak Lanjut</h3>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Pilih Jenis Penambahan</label>
+                        <select id="pilihJenisTambah" class="w-full border border-slate-300 rounded-md p-2 mb-4">
+                            <option value="antrean">Ambil dari Antrean/MPP</option>
+                            <option value="manual">Rekam Manual</option>
+                        </select>
+                        <!-- Ambil dari antrean -->
+                        <div id="formAmbilAntrean">
+                            <p class="text-sm text-slate-600 mb-3">
+                                Masukkan Nomor Antrean (format: 000-D/M/YYYY atau M000-D/M/YYYY)
+                            </p>
+                            <input id="inputNoAntreanTindak" class="w-full border border-slate-300 rounded-md p-2 mb-3" placeholder="Contoh: 001-5/5/2025">
+                        </div>
+                        <!-- Rekam manual -->
+                        <div id="formManual" class="hidden space-y-2">
+                            <div>
+                                <label class="block text-sm">Nama*</label><input id="manNama" class="w-full border border-slate-300 rounded-md p-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm">NIK/NPWP</label><input id="manNik" class="w-full border border-slate-300 rounded-md p-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm">No HP/WA</label><input id="manHP" class="w-full border border-slate-300 rounded-md p-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm">Email</label><input id="manEmail" class="w-full border border-slate-300 rounded-md p-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm">Keperluan</label><input id="manKeperluan" class="w-full border border-slate-300 rounded-md p-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm">Keterangan</label><textarea id="manKet" class="w-full border border-slate-300 rounded-md p-2"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm">Proses Tindak Lanjut</label><textarea id="manProses" class="w-full border border-slate-300 rounded-md p-2"></textarea>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-end gap-2">
+                            <button id="btnBatalTambahTindak" class="bg-slate-200 hover:bg-slate-300 text-slate-700 py-2 px-4 rounded">Batal</button>
+                            <button id="btnKonfirmTambah" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Simpan</button>
+                        </div>
+                        <p id="msgTambahTindak" class="text-sm text-red-500 mt-3 hidden"></p>
+                    </div>
+                </div>
+                <!-- Modal: detail & edit tindak lanjut -->
+                <div id="detailTindakModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden modal-container">
+                    <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <h3 class="text-lg font-semibold mb-3">Detail Tindak Lanjut</h3>
+                        <div class="space-y-2 text-sm text-slate-700">
+                            <div>
+                                <strong>Timestamps:</strong><span id="dt_timestamps"></span>
+                            </div>
+                            <div>
+                                <strong>No Antrean:</strong><span id="dt_no"></span>
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">Nama</label><input id="dt_nama" class="w-full border border-slate-300 rounded-md p-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">NIK/NPWP</label><input id="dt_nik" class="w-full border border-slate-300 rounded-md p-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">No HP/WA</label><input id="dt_hp" class="w-full border border-slate-300 rounded-md p-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">Email</label><input id="dt_email" class="w-full border border-slate-300 rounded-md p-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">Keperluan</label><input id="dt_keperluan" class="w-full border border-slate-300 rounded-md p-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">Keterangan</label><input id="dt_ket" class="w-full border border-slate-300 rounded-md p-2 text-sm">
+                            </div>
+                            <div>
+                                <strong>Petugas Antrean:</strong><span id="dt_petugas"></span>
+                            </div>
+                            <hr class="my-3">
+                            <label class="block text-sm font-medium text-slate-700">Proses Tindak Lanjut</label>
+                            <textarea id="dt_proses" class="w-full border border-slate-300 rounded-md p-2" rows="4" placeholder="Tuliskan proses yang dilakukan..."></textarea>
+                            <label class="block text-sm font-medium text-slate-700 mt-2">Urgensi</label>
+                            <select id="dt_urgensi" class="w-full border border-slate-300 rounded-md p-2">
+                                <option value="Sangat Penting">Sangat Penting</option>
+                                <option value="Penting" selected>Penting</option>
+                                <option value="Biasa">Biasa</option>
+                            </select>
+                            <label class="block text-sm font-medium text-slate-700 mt-2">Status Tindak Lanjut</label>
+                            <select id="dt_statusTindak" class="w-full border border-slate-300 rounded-md p-2">
+                                <option value="Belum Ditindaklanjuti">Belum Ditindaklanjuti</option>
+                                <option value="Menunggu Proses">Menunggu Proses</option>
+                                <option value="Selesai">Selesai</option>
+                            </select>
+                        </div>
+                        <div class="mt-4 flex justify-between items-center">
+                            <button id="btnHapusDetailTindak" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">
+                                <i class="fa-solid fa-trash mr-1"></i>Hapus </button>
+                            <div class="flex gap-2">
+                                <button id="btnTutupDetailTindak" class="bg-slate-200 hover:bg-slate-300 text-slate-700 py-2 px-4 rounded">Tutup</button>
+                                <button id="btnSimpanDetailTindak" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Simpan Perubahan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- === PENGATURAN === -->
+                <div id="pengaturanContent" class="">
+                  <h1 class="text-3xl font-bold text-slate-800 mb-6">Pengaturan Antrean</h1>
+
+                  <!-- === BAGIAN HARI & JAM LAYANAN === -->
+                  <div class="bg-white p-6 rounded-lg shadow mb-8">
+                    <h2 class="text-xl font-semibold mb-4 text-slate-700 border-b pb-2">Hari & Jam Layanan</h2>
+                    <div class="overflow-x-auto">
+                      <table class="min-w-full border border-slate-200 text-sm">
+                        <thead class="bg-slate-100 text-slate-700 font-semibold">
+                          <tr>
+                            <th class="px-3 py-2 text-left">Hari</th>
+                            <th class="px-3 py-2 text-left">Status</th>
+                            <th class="px-3 py-2 text-left">Maksimal</th>
+                            <th class="px-3 py-2 text-left">Jam Buka</th>
+                            <th class="px-3 py-2 text-left">Jam Tutup</th>
+                            <th class="px-3 py-2 text-left">Catatan</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tabelPengaturanBody" class="divide-y divide-slate-200"></tbody>
+                      </table>
+                    </div>
+
+                    <div class="text-right mt-6">
+                      <button id="btnSimpanPengaturan" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition">
+                        Simpan Pengaturan
+                      </button>
+                    </div>
+
+                    <!-- === 🗓️ Tanggal Tutup Khusus === -->
+                    <div class="mt-10 bg-white p-6 rounded-lg shadow">
+                      <h2 class="text-xl font-semibold mb-4 text-slate-700 border-b pb-2">Tanggal Tutup Khusus</h2>
+
+                      <!-- Form tambah tanggal -->
+                      <div class="flex flex-wrap items-center gap-3 mb-4">
+                        <input type="text" id="inputTanggalKhusus" class="border border-slate-300 rounded-md px-3 py-2 text-sm" placeholder="Contoh: 25/12/2025 (DD/MM/YYYY)">
+                        <button id="btnTambahTanggalKhusus" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg shadow">
+                          <i class="fa fa-plus mr-1"></i> Tambah
+                        </button>
+                      </div>
+
+                      <!-- Daftar tanggal tutup -->
+                      <ul id="daftarTanggalKhusus" class="divide-y divide-slate-200"></ul>
+                    </div>
+
+                    <!-- === 👥 DAFTAR USER === -->
+                    <div id="userManagement" class="mt-10 bg-white p-6 rounded-lg shadow">
+                      <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-slate-700 border-b pb-2">Daftar User</h2>
+                        <button id="btnTambahUser" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition">
+                          <i class="fa-solid fa-plus mr-2"></i>Tambah User
+                        </button>
+                      </div>
+                      <div class="overflow-x-auto">
+                        <table class="min-w-full border border-slate-200 text-sm">
+                          <thead class="bg-slate-100 text-slate-700 font-semibold">
+                            <tr>
+                              <th class="px-3 py-2 text-left">User ID</th>
+                              <th class="px-3 py-2 text-left">Nama</th>
+                              <th class="px-3 py-2 text-left">Password</th>
+                              <th class="px-3 py-2 text-left">Role</th>
+                              <th class="px-3 py-2 text-center">Aksi</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tabelUserBody" class="divide-y divide-slate-200 text-slate-700">
+                            <tr><td colspan="5" class="text-center py-3 text-slate-500">Memuat data...</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+    <div id="ketModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-xl modal-container">
+            <h3 class="text-lg font-semibold mb-4">Isi Keterangan</h3>
+            <textarea id="ketInput" class="w-full border border-slate-300 rounded-md p-2 h-28" placeholder="Tuliskan keterangan di sini..."></textarea>
+            <div class="mt-4 flex justify-end gap-3">
+                <button id="btnTutupKet" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg">Batal</button>
+                <button id="btnSimpanKet" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Simpan</button>
+            </div>
+        </div>
+    </div>
+    <div id="infoModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden modal-container">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl">
+            <h3 class="text-lg font-semibold mb-4 border-b pb-2">Detail & Edit Antrean</h3>
+            <div class="space-y-3 max-h-[60vh] overflow-y-auto p-1">
+                <div>
+                    <label class="font-medium text-sm text-slate-600">Waktu Daftar:</label><input id="infoTimestamp" readonly class="w-full bg-slate-100 p-2 rounded-md mt-1 text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="font-medium text-sm text-slate-600">Nomor Antrean:</label><input id="infoNo" readonly class="w-full bg-slate-100 p-2 rounded-md mt-1 text-sm">
+                    </div>
+                    <div>
+                        <label class="font-medium text-sm text-slate-600">Status:</label><input id="infoStatus" readonly class="w-full bg-slate-100 p-2 rounded-md mt-1 text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="font-medium text-sm text-slate-600">Nama:</label><input id="infoNama" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm">
+                </div>
+                <div>
+                    <label class="font-medium text-sm text-slate-600">NIK/NPWP:</label><input id="infoNik" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="font-medium text-sm text-slate-600">No HP:</label><input id="infoHP" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm">
+                    </div>
+                    <div>
+                        <label class="font-medium text-sm text-slate-600">Email:</label><input id="infoEmail" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="font-medium text-sm text-slate-600">Keperluan:</label><input id="infoKeperluan" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm">
+                </div>
+                <div>
+                    <label class="font-medium text-sm text-slate-600">Petugas:</label><input id="infoPetugas" readonly class="w-full bg-slate-100 p-2 rounded-md mt-1 text-sm">
+                </div>
+                <div>
+                    <label class="font-medium text-sm text-slate-600">Keterangan:</label><textarea id="infoKeterangan" rows="3" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm"></textarea>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-between items-center pt-4 border-t">
+                <!-- 🔘 Tombol Tambah ke TL -->
+                <button id="btnTambahKeTL" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg">
+                    <i class="fa-solid fa-share mr-1"></i>Tambah ke TL </button>
+                <!-- Tombol kanan tetap sama -->
+                <div class="flex gap-3">
+                    <button id="btnSimpanInfo" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Simpan Perubahan</button>
+                    <button id="btnHapusInfo" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg">Hapus Antrean</button>
+                    <button id="btnTutupInfo" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tambahModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden modal-container">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl">
+            <h3 class="text-lg font-semibold mb-4 border-b pb-2">Tambah Antrean Baru</h3>
+            <div class="space-y-3 max-h-[60vh] overflow-y-auto p-1">
+                <div>
+                    <label class="font-medium text-sm text-slate-600">Nama Lengkap <span class="text-red-500">*</span></label><input id="tambahNama" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm" placeholder="Masukkan nama">
+                </div>
+                <div>
+                    <label class="font-medium text-sm text-slate-600">NIK/NPWP</label><input id="tambahNik" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm" placeholder="Masukkan NIK atau NPWP">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="font-medium text-sm text-slate-600">No HP/WA</label><input id="tambahHP" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm" placeholder="Contoh: 08123456789">
+                    </div>
+                    <div>
+                        <label class="font-medium text-sm text-slate-600">Email</label><input id="tambahEmail" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm" placeholder="Contoh: nama@email.com">
+                    </div>
+                </div>
+                <div>
+                    <label for="tambahKeperluan" class="font-medium text-sm text-slate-600">Keperluan <span class="text-red-500">*</span></label>
+                    <select id="tambahKeperluan" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm">
+                        <option value="">-- Pilih Keperluan --</option>
+                        <option value="Daftar NPWP">Daftar NPWP</option>
+                        <option value="Kartu NPWP (Digital)">Kartu NPWP (Digital)</option>
+                        <option value="Aktivasi Akun Coretax DJP">Aktivasi Akun Coretax DJP</option>
+                        <option value="Pemadanan NIK-NPWP">Pemadanan NIK-NPWP</option>
+                        <option value="Lapor SPT Masa (Bulanan)">Lapor SPT Masa (Bulanan)</option>
+                        <option value="Lapor SPT Tahunan">Lapor SPT Tahunan</option>
+                        <option value="Konsultasi Coretax">Konsultasi Coretax</option>
+                        <option value="Instansi Pemerintah (Dinas) Konsultasi Coretax">Instansi Pemerintah (Dinas) Konsultasi Coretax</option>
+                        <option value="Perubahan Data (No HP, Email, Alamat, dll.)">Perubahan Data (No HP, Email, Alamat, dll.)</option>
+                        <option value="Buat Faktur Pajak">Buat Faktur Pajak</option>
+                        <option value="Pembuatan Billing PPh PHTB">Pembuatan Billing PPh PHTB</option>
+                        <option value="Validasi PPh PHTB">Validasi PPh PHTB</option>
+                        <option value="Permohonan PKP">Permohonan PKP</option>
+                        <option value="Aktivasi/Permintaan Ulang EFIN">Aktivasi/Permintaan Ulang EFIN</option>
+                        <option value="Lainnya">Lainnya...</option>
+                    </select>
+                </div>
+                <div id="tambahKeperluanLainnyaDiv" class="hidden">
+                    <label class="font-medium text-sm text-slate-600">Sebutkan Keperluan Lainnya</label>
+                    <input type="text" id="tambahKeperluanLainnya" class="w-full border border-slate-300 p-2 rounded-md mt-1 text-sm" placeholder="Tuliskan keperluan Anda di sini">
+                </div>
+            </div>
+            <div class="mt-4 flex justify-end gap-3 pt-4 border-t">
+                <button id="btnTutupTambah" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg">Batal</button>
+                <button id="btnSimpanTambah" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Simpan</button>
+            </div>
+        </div>
+    </div>
+    <div id="suksesModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden modal-container">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Sukses!</h3>
+            <div class="mt-2 px-7 py-3">
+                <p id="suksesMessage" class="text-sm text-gray-500"></p>
+            </div>
+            <div class="items-center px-4 py-3">
+                <button id="btnTutupSukses" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">OK</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Tambah Pengumuman -->
+    <div id="pengumumanModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden modal-container">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-xl">
+            <h3 class="text-lg font-semibold mb-4 border-b pb-2">Tambah Pengumuman</h3>
+            <textarea id="pengumumanInput" class="w-full border border-slate-300 rounded-md p-3 h-32" placeholder="Tuliskan isi pengumuman..."></textarea>
+            <div class="mt-4 flex justify-end gap-3">
+                <button id="btnBatalPengumuman" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg">Batal</button>
+                <button id="btnSimpanPengumuman" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Simpan</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Edit Pengumuman -->
+    <div id="editPengumumanModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden modal-container">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-xl">
+            <h3 class="text-lg font-semibold mb-4 border-b pb-2">Edit Pengumuman</h3>
+            <textarea id="editPengumumanInput" class="w-full border border-slate-300 rounded-md p-3 h-32"></textarea>
+            <div class="mt-4 flex justify-end gap-3">
+                <button id="btnBatalEditPengumuman" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg">Batal</button>
+                <button id="btnSimpanEditPengumuman" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Simpan</button>
+            </div>
+        </div>
+    </div>
+    <!-- 🧩 Modal Tambah/Edit User -->
+    <div id="userModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden modal-container">
+      <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
+        <h3 id="userModalTitle" class="text-lg font-semibold mb-4 border-b pb-2">Tambah User</h3>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm font-medium text-slate-600">User ID</label>
+            <input id="userIdInput" class="w-full border border-slate-300 rounded-md p-2 text-sm" placeholder="username untuk login" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-600">Nama</label>
+            <input id="userNamaInput" class="w-full border border-slate-300 rounded-md p-2 text-sm" placeholder="Nama Petugas" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-600">Password</label>
+            <input id="userPasswordInput" type="password" class="w-full border border-slate-300 rounded-md p-2 text-sm" placeholder="••••••" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-600">Role</label>
+            <select id="userRoleInput" class="w-full border border-slate-300 rounded-md p-2 text-sm">
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-5 flex justify-end gap-3">
+          <button id="btnBatalUser" class="bg-slate-200 hover:bg-slate-300 text-slate-700 py-2 px-4 rounded-lg">Batal</button>
+          <button id="btnSimpanUser" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">Simpan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- === 🔐 MODAL PROFIL PETUGAS === -->
+    <div id="profilModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden modal-container">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-xl relative">
+            <!-- Tombol Logout -->
+            <button id="btnLogoutProfil" class="absolute top-3 right-3 bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-md text-sm font-semibold">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i>Logout </button>
+            <h3 class="text-xl font-bold mb-4 border-b pb-2 text-slate-800">Profil Petugas</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-600">Nama</label>
+                    <input id="profilNama" readonly class="mt-1 block w-full bg-slate-100 border border-slate-300 rounded-md shadow-sm py-2 px-3 text-sm" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-600">Username</label>
+                    <input id="profilUsername" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-600">Password Baru</label>
+                    <input type="password" id="profilPassword" class="mt-1 block w-full border border-slate-300 rounded-md shadow-sm py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Kosongkan jika tidak ingin diubah" />
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end gap-3">
+                <button id="btnTutupProfil" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg">Tutup</button>
+                <button id="btnSimpanProfil" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">Simpan Perubahan</button>
+            </div>
+        </div>
+        </div>
+        <!-- 💬 Tombol Chat Melayang -->
+            <div id="chatButton"
+              class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg cursor-pointer z-[9999] transition">
+              <i class="fa-solid fa-comments text-xl"></i>
+            </div>
+
+            <!-- 💬 Pop-up Chat -->
+            <div id="chatPopup"
+              class="hidden fixed bottom-20 right-6 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col z-[9999] animate-fade-in">
+              <div class="flex justify-between items-center bg-blue-600 text-white px-4 py-2 rounded-t-2xl">
+                <h3 class="font-semibold text-sm">Chat Petugas</h3>
+                <button id="closeChat" class="text-white hover:text-gray-200">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <div id="chatMessages" class="flex-1 overflow-y-auto p-3 max-h-80 space-y-2 bg-slate-50"></div>
+              <div class="flex items-center gap-2 p-3 border-t border-slate-200">
+                <input id="chatInput" type="text" placeholder="Ketik pesan..."
+                  class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300" />
+                <button id="sendChat" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </button>
+              </div>
+            </div>
+    
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script src="./scripts/petugas.js" defer></script>
+
+
+</body>
+
+</html>

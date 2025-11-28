@@ -1,118 +1,89 @@
 <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
 
-<html lang="id">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Antrean Online KP2KP Pariaman</title>
-<!-- Tambahkan favicon Base64 -->
-<link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEIElEQVR4Ac2WA5ArWRiFz/lvd5w8c23btm2rrC2tbdu2bdu2vTu2Z4K+2KQmD52ZPObV7ld16tz4q/+mgf8aogq28w7A5MfBuuVhmLYOQDGuGGtnNQRk1NJLWVBQibUGvTbgj7GJx2bnSSD4a5xHG1kLJnYMc9n9GPhxp5VYQxgD2GKM5XCXYofjxCEyQSM+RcNLOMzCWWdNu87jURPw7oEW+X365u1uVAFb+Im6ZbP9JXAXIsByLAhZ8OC0oFLA6OEJaDPcxpTiUJpEZhmNSMahEhPgAxPETpLMjR8mJu3lQgKFtnEC428PrW9mwS3DAGBBML8CpbVKWoxfXsMvdgXWavkyyMnR6ZXbfgAAwSwmQ/TxAJbBQlLoE/TVKdCgMqJo11fUJ7R+ujXDAjJpDQCbo0YMdQlMFqBxI+J72DkWd8uEBCiLbwMgjhphDZHrFsBgRGiZicbc5gDgoQwYmYYKBrN0/9T7GB/HL5PH2s75ltBYCgaLoxJSKd9NDguU18YC3/8ccw8+k8ETr6UxMCQck7Tn/npf05OYD+Jpo9JjzdmwOAEjIRRUWKDMS2+n3LnXTMIfdT6dI0q096rA36wpj/nAfDdBAaJhMAoCGEFIwBjinQ+T7owrp7Cu0UcJEguOIapDwDIs8E9jBDfdNwENzVFQsNDQKFSFCrAVE/js64T7+Ms0KAQRpuYT4CgT+PqHJPMFjxTUBDcXAWfCAsXRxyAiqBVmrhNAWKB/0CepUCu0RlUsiLahMWEBodR2ApqoRmAF3zdMDgtQFEQ81AptUJWugRhe+WaFCgEKRBb9FjhHPPPFSmjqSY+cAMVbpALGEh/+vgSe/nxlTJiGyv9AbbfAGITIBQpv/bgU7nl/XbQPpjBhKuZ9C4wOoqkJGydAAUmIUuX3F0NvuEVBlAdSgcU+8rqcuuCQH/yYb/Bt3US8+/OS+PKfxdGfT0L5KBEWAFWe4mM0skPtdwK4DfPBHy0pHH7dpp6DDzAKig8yAggAOCfiCiGBXF7/JVUElBeLAP2YX4zl6Kd2B52JZRtCd0R1Dd1vOng9YASVicTGopYnKaHpWHJ857shge6e3p8B9TLpW4qP2eNHMojEx6ImEG5MfODBcy88tzUkEOSHunWQu8RRfUOJYPYoP4HUmKXgF5skFgKdjuSeH5/ovwllFMoM9vyIvo6vWjIT1/tGVHRF0p8OKlUMSlFevDQJGJ2DtQWQLEdmtcjMFpbXVKVARArJqHl0SmbwlJdfuu0vlPFQQaBzn3qR+OFLLzVht7rGvqMcZBkhPQBQfgx+LIN8th2FoVY4kwNJiKhShn+4GKrhLgVAkIwWPov6wcPjU/rVV165uyO8I3Pgl9+aCKoUydRo73XOliQcWX6NpZr5ACSMEtfnicsuufRS+F/yL28O2jvnTzpDAAAAAElFTkSuQmCC" rel="icon" type="image/png"/>
-<!-- Menggunakan Tailwind CSS untuk styling modern -->
-<script src="https://cdn.tailwindcss.com"></script>
-<!-- Menggunakan Font Awesome untuk ikon -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/12.6.0/firebase-app-compat.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/12.6.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/12.6.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/12.6.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/12.6.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/12.6.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/12.6.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/12.6.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/12.6.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/12.6.0/firebase-performance-compat.js"></script>
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
-<link href="./styles/index.css" rel="stylesheet"/></head>
-<body class="antialiased text-slate-800 bg-white sm:bg-slate-100 overflow-x-hidden">
-<!-- Overlay Loading -->
-<div class="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity duration-300" id="loadingOverlay">
-<div class="flex flex-col items-center justify-center">
-<div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-<p class="mt-4 text-blue-700 font-medium text-sm">Memuat...</p>
-</div>
-</div>
-<!-- Kontainer Utama: Menjadi layar di mobile, dan card di desktop (breakpoint sm) -->
-<div class="w-[95%] sm:max-w-sm sm:my-8 sm:shadow-xl sm:rounded-2xl mx-auto flex flex-col min-h-screen sm:min-h-0 bg-white">
-<!-- Header -->
-<header class="flex justify-between items-center p-4 sm:p-6">
-<div class="flex items-center gap-3">
-<img alt="Logo Pajak" class="full" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEIElEQVR4Ac2WA5ArWRiFz/lvd5w8c23btm2rrC2tbdu2bdu2vTu2Z4K+2KQmD52ZPObV7ld16tz4q/+mgf8aogq28w7A5MfBuuVhmLYOQDGuGGtnNQRk1NJLWVBQibUGvTbgj7GJx2bnSSD4a5xHG1kLJnYMc9n9GPhxp5VYQxgD2GKM5XCXYofjxCEyQSM+RcNLOMzCWWdNu87jURPw7oEW+X365u1uVAFb+Im6ZbP9JXAXIsByLAhZ8OC0oFLA6OEJaDPcxpTiUJpEZhmNSMahEhPgAxPETpLMjR8mJu3lQgKFtnEC428PrW9mwS3DAGBBML8CpbVKWoxfXsMvdgXWavkyyMnR6ZXbfgAAwSwmQ/TxAJbBQlLoE/TVKdCgMqJo11fUJ7R+ujXDAjJpDQCbo0YMdQlMFqBxI+J72DkWd8uEBCiLbwMgjhphDZHrFsBgRGiZicbc5gDgoQwYmYYKBrN0/9T7GB/HL5PH2s75ltBYCgaLoxJSKd9NDguU18YC3/8ccw8+k8ETr6UxMCQck7Tn/npf05OYD+Jpo9JjzdmwOAEjIRRUWKDMS2+n3LnXTMIfdT6dI0q096rA36wpj/nAfDdBAaJhMAoCGEFIwBjinQ+T7owrp7Cu0UcJEguOIapDwDIs8E9jBDfdNwENzVFQsNDQKFSFCrAVE/js64T7+Ms0KAQRpuYT4CgT+PqHJPMFjxTUBDcXAWfCAsXRxyAiqBVmrhNAWKB/0CepUCu0RlUsiLahMWEBodR2ApqoRmAF3zdMDgtQFEQ81AptUJWugRhe+WaFCgEKRBb9FjhHPPPFSmjqSY+cAMVbpALGEh/+vgSe/nxlTJiGyv9AbbfAGITIBQpv/bgU7nl/XbQPpjBhKuZ9C4wOoqkJGydAAUmIUuX3F0NvuEVBlAdSgcU+8rqcuuCQH/yYb/Bt3US8+/OS+PKfxdGfT0L5KBEWAFWe4mM0skPtdwK4DfPBHy0pHH7dpp6DDzAKig8yAggAOCfiCiGBXF7/JVUElBeLAP2YX4zl6Kd2B52JZRtCd0R1Dd1vOng9YASVicTGopYnKaHpWHJ857shge6e3p8B9TLpW4qP2eNHMojEx6ImEG5MfODBcy88tzUkEOSHunWQu8RRfUOJYPYoP4HUmKXgF5skFgKdjuSeH5/ovwllFMoM9vyIvo6vWjIT1/tGVHRF0p8OKlUMSlFevDQJGJ2DtQWQLEdmtcjMFpbXVKVARArJqHl0SmbwlJdfuu0vlPFQQaBzn3qR+OFLLzVht7rGvqMcZBkhPQBQfgx+LIN8th2FoVY4kwNJiKhShn+4GKrhLgVAkIwWPov6wcPjU/rVV165uyO8I3Pgl9+aCKoUydRo73XOliQcWX6NpZr5ACSMEtfnicsuufRS+F/yL28O2jvnTzpDAAAAAElFTkSuQmCC"/>
-<h1 class="text-xl sm:text-2xl font-bold text-slate-900">
-<p>
-      Antrean Online<br/>KP2KP Pariaman</p>
-</h1>
-</div>
-<button class="group flex items-center gap-2 text-sm font-semibold bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg transition-all duration-300" id="btnLoginPetugas">
-<i class="fa-solid fa-user-shield text-slate-600 group-hover:text-slate-800"></i>
-<span>Petugas</span>
-</button>
-</header>
-<main class="flex-grow px-4 sm:px-6">
-<!-- 🔔 Notifikasi Antrean Tutup -->
-<div class="hidden bg-red-100 border border-red-300 text-red-800 text-sm font-medium rounded-lg p-3 mb-4 flex items-center justify-between" id="bannerTutup">
-<div class="flex items-center gap-2">
-<i class="fa-solid fa-circle-exclamation text-red-500"></i>
-<span id="bannerTutupText">Antrean sedang ditutup. Silakan coba lagi nanti.</span>
-</div>
-</div>
-<!-- Form Pengambilan Antrean: Styling card dihilangkan, karena parent sudah menjadi card -->
-<div class="py-6" id="form-container">
-<h2 class="text-lg font-semibold mb-1">Ambil Nomor Antrean</h2>
-<p class="text-sm text-slate-500 mb-5">Silakan isi data Anda dengan benar.</p>
-<form class="space-y-4" id="formAntrean">
-<!-- Input fields dengan validasi -->
-<div>
-<input class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" id="nama" placeholder="Nama Lengkap" required=""/>
-<span class="text-red-500 text-xs mt-1 hidden" id="namaError"></span>
-</div>
-<div>
-<input class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" id="nik" placeholder="NIK / NPWP (15-16 digit)" required=""/>
-<span class="text-red-500 text-xs mt-1 hidden" id="nikError"></span>
-</div>
-<div>
-<input class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" id="hp" placeholder="No. HP / WhatsApp (contoh: 0812...)" required=""/>
-<span class="text-red-500 text-xs mt-1 hidden" id="hpError"></span>
-</div>
-<div>
-<input class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" id="email" placeholder="Email Aktif" required="" type="email"/>
-<span class="text-red-500 text-xs mt-1 hidden" id="emailError"></span>
-</div>
-<div>
-<select class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition appearance-none" id="keperluan" required="">
-<option disabled="" selected="" value="">Pilih Keperluan</option>
-<option>Daftar NPWP</option>
-<option>Kartu NPWP (Digital)</option>
-<option>Aktivasi Akun Coretax DJP</option>
-<option>Pemadanan NIK-NPWP</option>
-<option>Lapor SPT Masa (Bulanan)</option>
-<option>Lapor SPT Tahunan</option>
-<option>Konsultasi Coretax</option>
-<option>Instansi Pemerintah (Dinas) Konsultasi Coretax</option>
-<option>Perubahan Data (No HP, Email, Alamat, dll.)</option>
-<option>Buat Faktur Pajak</option>
-<option>Pembuatan Billing PPh PHTB</option>
-<option>Validasi PPh PHTB</option>
-<option>Permohonan PKP</option>
-<option>Aktivasi/Permintaan Ulang EFIN</option>
-<option value="lainnya">Lainnya...</option>
-</select>
-</div>
-<div class="hidden" id="keperluanLainnyaContainer">
-<textarea class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" id="keperluanLainnya" placeholder="Tuliskan keperluan Anda di sini..."></textarea>
-<span class="text-red-500 text-xs mt-1 hidden" id="lainnyaError"></span>
-</div>
-<button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300" id="btnAmbil" type="submit">
-<i class="fa-solid fa-ticket mr-2"></i>Ambil Nomor </button>
-</form>
-</div>
-<!-- Hasil Nomor Antrean -->
-<div class="hidden py-6" id="hasil"></div>
-<!-- Dashboard Antrean: Styling card dihilangkan -->
-<div class="mt-8 pb-6" id="dashboard">
-<div id="dashboard-content">
-<div class="text-center text-slate-500">
-<i class="fa-solid fa-spinner fa-spin text-2xl"></i>
-<p class="mt-2 text-sm">Memuat data antrean...</p>
-</div>
-</div>
-</div>
-</main>
-<!-- Footer -->
-<footer class="text-center text-xs text-slate-400 py-4 mt-auto px-4 sm:px-6">KP2KP Pariaman © 2025</footer>
-</div>
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="message">
+      <h2>Welcome</h2>
+      <h1>Firebase Hosting Setup Complete</h1>
+      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
+      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    </div>
+    <p id="load">Firebase SDK Loading&hellip;</p>
 
-<script src="./scripts/index.js"></script></body>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadEl = document.querySelector('#load');
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.firestore().doc('/foo/bar').get().then(() => { });
+        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        // firebase.analytics(); // call to activate
+        // firebase.analytics().logEvent('tutorial_completed');
+        // firebase.performance(); // call to activate
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        try {
+          let app = firebase.app();
+          let features = [
+            'auth', 
+            'database', 
+            'firestore',
+            'functions',
+            'messaging', 
+            'storage', 
+            'analytics', 
+            'remoteConfig',
+            'performance',
+          ].filter(feature => typeof app[feature] === 'function');
+          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+        } catch (e) {
+          console.error(e);
+          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
+    </script>
+  </body>
 </html>
